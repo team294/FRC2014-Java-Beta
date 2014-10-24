@@ -40,10 +40,10 @@ public class OI {
     // button.whenReleased(new ExampleCommand());
 
 	// Joystick controls
-	public Joystick leftStick = new Joystick(1);
-	public Joystick rightStick = new Joystick(2);
-	public Joystick coStick = new Joystick(3);
-	public Joystick testStick = new Joystick(4);
+	public Joystick leftStick = new Joystick(0);
+	public Joystick rightStick = new Joystick(1);
+	public Joystick coStick = new Joystick(2);
+	public Joystick testStick = new Joystick(3);
 	//KinectStick kStick1 = KinectStick(1);
 	//KinectStick kStick2 = KinectStick(2);
 	
