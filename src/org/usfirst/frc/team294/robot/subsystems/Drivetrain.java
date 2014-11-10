@@ -3,7 +3,7 @@ package org.usfirst.frc.team294.robot.subsystems;
 
 import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
-import org.usfirst.frc.team294.robot.commands.DriveWithJoysticks;
+import org.usfirst.frc.team294.robot.commands.TankDriveWithJoysticks;
 import org.usfirst.frc.team294.robot.util.LinearVictor884;
 import org.usfirst.frc.team294.robot.util.RateLimitFilter;
 import org.usfirst.frc.team294.robot.util.TripleSpeedController;
@@ -46,6 +46,8 @@ public class Drivetrain extends Subsystem {
 	public Drivetrain() {
 		lowBatteryTimer.start();
 		lowBatteryScaleTimer.start();
+		drive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, true);
+		drive.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
 	}
 
 	// Put methods for controlling this subsystem
@@ -53,7 +55,7 @@ public class Drivetrain extends Subsystem {
 
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
-		setDefaultCommand(new DriveWithJoysticks());
+		setDefaultCommand(new TankDriveWithJoysticks());
 	}
 	
 	public void stop() {
@@ -92,16 +94,30 @@ public class Drivetrain extends Subsystem {
 		double r = rightFilter.update(rPower);
 		// monitor battery voltage; if less than 6V for X time, reduce
 		// drivetrain by Y factor for a period of time
-		if (Robot.pdp.getVoltage() > 6.5)
+		//System.out.println("voltage: " + Robot.pdp.getVoltage());
+		/*if (Robot.pdp.getVoltage() > 6.5)
 			lowBatteryTimer.reset();
 		if (lowBatteryTimer.get() > 0.1) {
 			lowBatteryScaleTimer.reset();
 			lowBatteryScale = 0.25;
 		}
-		if (lowBatteryScaleTimer.get() > 0.5)
+		if (lowBatteryScaleTimer.get() > 0.5)*/
 			lowBatteryScale = 1.0;
-		//logging.info("l: %s r: %s lbs: %s", l, r, lowBatteryScale)
-		drive.tankDrive(l*lowBatteryScale, r*lowBatteryScale);
+		//System.out.println("l: " + l + " r: " + r + " lbs: " + lowBatteryScale);
+		drive.tankDrive(l*lowBatteryScale, r*lowBatteryScale, false);
+	}
+	public void arcDrive(double lPower,double rPower){
+		double l = leftFilter.update(lPower);
+		double r = rightFilter.update(rPower);
+		//System.out.println("voltage: " + Robot.pdp.getVoltage());
+		/*if (Robot.pdp.getVoltage() > 6.5)
+			lowBatteryTimer.reset();
+		if (lowBatteryTimer.get() > 0.1) {
+			lowBatteryScaleTimer.reset();
+			lowBatteryScale = 0.25;
+		}
+		if (lowBatteryScaleTimer.get() > 0.5)*/
+			lowBatteryScale = 1.0;
+		drive.arcadeDrive(l*lowBatteryScale, r*lowBatteryScale, false);
 	}
 }
-

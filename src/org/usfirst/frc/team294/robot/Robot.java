@@ -27,7 +27,6 @@ public class Robot extends IterativeRobot {
 	public static Drivetrain drivetrain;
 	public static Intake intake;
 	public static Jaw jaw;
-	public static Kicker kicker;
 	public static Pivot pivot;
 	public static RangeFinder rangeFinder;
 	public static Shifter shifter;
@@ -48,7 +47,6 @@ public class Robot extends IterativeRobot {
     	drivetrain = new Drivetrain();
 		intake = new Intake();
 		jaw = new Jaw();
-		kicker = new Kicker();
 		pivot = new Pivot();
 		rangeFinder = new RangeFinder();
 		shifter = new Shifter();
@@ -57,7 +55,6 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData(drivetrain);
 		SmartDashboard.putData(intake);
 		SmartDashboard.putData(jaw);
-		SmartDashboard.putData(kicker);
 		SmartDashboard.putData(pivot);
 		SmartDashboard.putData(rangeFinder);
 		SmartDashboard.putData(shifter);
@@ -70,6 +67,8 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData(new JawOpen());
 		SmartDashboard.putData(new ShiftDown());
 		SmartDashboard.putData(new ShiftUp());
+		SmartDashboard.putData(new Engage());
+		SmartDashboard.putData(new Shoot());
 
 		oi = new OI();
         // instantiate the command used for the autonomous period

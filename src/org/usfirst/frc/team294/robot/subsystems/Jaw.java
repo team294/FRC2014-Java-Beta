@@ -1,6 +1,7 @@
 package org.usfirst.frc.team294.robot.subsystems;
 
 import org.usfirst.frc.team294.robot.RobotMap;
+
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -9,7 +10,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class Jaw extends Subsystem {
 
-	DoubleSolenoid jawPiston = new DoubleSolenoid(RobotMap.kSOL_jawPiston_forward, RobotMap.kSOL_jawPiston_reverse);
+	DoubleSolenoid jawPiston = new DoubleSolenoid(RobotMap.kSOL_jawPistonModule, RobotMap.kSOL_jawPiston_forward, RobotMap.kSOL_jawPiston_reverse);
 	private boolean jawDown = true;
 	
 	// Put methods for controlling this subsystem

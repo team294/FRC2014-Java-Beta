@@ -7,9 +7,9 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class DriveWithJoysticks extends Command {
+public class TankDriveWithJoysticks extends Command {
 
-    public DriveWithJoysticks() {
+    public TankDriveWithJoysticks() {
         // Use requires() here to declare subsystem dependencies
     	requires(Robot.drivetrain);
     }
@@ -20,7 +20,12 @@ public class DriveWithJoysticks extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.drivetrain.tankDrive(Robot.oi.leftStick.getY(), Robot.oi.rightStick.getY());
+    	//System.out.println("tank drive");
+    	try {
+    		Robot.drivetrain.tankDrive(Robot.oi.leftStick.getY(), Robot.oi.rightStick.getY());
+    	} catch (ArrayIndexOutOfBoundsException e) {
+    		Robot.drivetrain.tankDrive(0, 0);
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()

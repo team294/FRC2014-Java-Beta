@@ -64,6 +64,10 @@ public class OI {
 
 		left[1].whenPressed(new ShiftDown());
 		right[1].whenPressed(new ShiftUp());
+		
+		right[4].whenPressed(new SingleStickDrive());
+		right[3].whenPressed(new ArcadeDriveWithJoysticks());
+		right[2].whenPressed(new TankDriveWithJoysticks());
 
 		co[2].whenPressed(new PivotSetPosition(Pivot.Setpoint.kFarShot));
 		co[3].whenPressed(new PivotSetPosition(Pivot.Setpoint.kIntake));
@@ -76,11 +80,17 @@ public class OI {
 		//co[9].whileHeld(new PivotManualJoystick(coStick));
 		co[10].whenPressed(new JawOpen());
 		co[10].whenReleased(new JawClose());
+		
 
 		test[2].whenPressed(new JawOpen());
 		test[2].whenReleased(new JawClose());
 		test[3].whenPressed(new PivotSetPosition(Pivot.Setpoint.kStart));
 		test[8].whileHeld(new PivotManualJoystick(testStick));
+		test[5].whenPressed(new Engage());
+		test[4].whenPressed(new Shoot());
+		test[6].whileHeld(new ShootOverride());
+		test[10].whenPressed(new JawOpen());
+		test[10].whenReleased(new JawClose());
 	}
 }
 
