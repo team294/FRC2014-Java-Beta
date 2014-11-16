@@ -40,8 +40,8 @@ public class RobotMap {
 	public static int kSOL_shifterPiston_reverse = 0;
 	public static int kSOL_shifterPiston_forward = 1;
 	public static int kSOL_jawPistonModule = 1;
-	public static int kSOL_jawPiston_reverse = 2;
-	public static int kSOL_jawPiston_forward = 3;
+	public static int kSOL_jawPiston_reverse = 3;
+	public static int kSOL_jawPiston_forward = 2;
 	public static int kSOL_kickerPistonModule = 1;
 	public static int kSOL_kickerPiston = 4;
 	public static int kSOL_rangeLight = 5;
