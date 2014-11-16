@@ -30,16 +30,14 @@ public class Shoot extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	 return (timeSinceInitialized()>0.5);
-    	 
+    	 return (timeSinceInitialized()>1.0);
+  
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	if(timeSinceInitialized()>0.5){
-    		Robot.winch.engage();
-    		Robot.winch.setReady(false);
-    	}
+    	Robot.winch.setReady(false);
+    	Robot.winch.engage();
     }
 
     // Called when another command which requires one or more of the same
