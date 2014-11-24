@@ -1,4 +1,3 @@
-
 package org.usfirst.frc.team294.robot;
 
 import edu.wpi.first.wpilibj.Gyro;
@@ -34,24 +33,36 @@ public class Robot extends IterativeRobot {
 
 	public static OI oi;
 
-    Command autonomousCommand;
+	public static boolean disabledTrigPressed = false;
+	public static boolean disabledButton2Pressed = false;
+	public static boolean disabledButton5Pressed = false;
+	public static boolean disabledButton4Pressed = false;
+	public static boolean disabledButton3Pressed = false;
 
-    /**
-     * This function is run when the robot is first started up and should be
-     * used for any initialization code.
-     */
-    public void robotInit() {
-    	pdp = new PowerDistributionPanel();
-    	gyro = new Gyro(RobotMap.kAIN_gyro);
+	public static int autoMode = 0;
 
-    	drivetrain = new Drivetrain();
+	public static float autoDelay = 0;
+
+	public static int startPosition = 0;
+
+	Command autonomousCommand;
+
+	/**
+	 * This function is run when the robot is first started up and should be
+	 * used for any initialization code.
+	 */
+	public void robotInit() {
+		pdp = new PowerDistributionPanel();
+		gyro = new Gyro(RobotMap.kAIN_gyro);
+
+		drivetrain = new Drivetrain();
 		intake = new Intake();
 		jaw = new Jaw();
 		pivot = new Pivot();
 		rangeFinder = new RangeFinder();
 		shifter = new Shifter();
 		winch = new Winch();
-		
+
 		SmartDashboard.putData(drivetrain);
 		SmartDashboard.putData(intake);
 		SmartDashboard.putData(jaw);
@@ -59,7 +70,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData(rangeFinder);
 		SmartDashboard.putData(shifter);
 		SmartDashboard.putData(winch);
-		
+
 		SmartDashboard.putData(new IntakeRun());
 		SmartDashboard.putData(new IntakeReverse());
 		SmartDashboard.putData(new IntakeStop());
@@ -71,48 +82,91 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData(new Shoot());
 
 		oi = new OI();
-        // instantiate the command used for the autonomous period
-        //autonomousCommand = new ExampleCommand();
-    }
+		// instantiate the command used for the autonomous period
+		// autonomousCommand = new ExampleCommand();
+	}
 
-    public void autonomousInit() {
-        // schedule the autonomous command (example)
-        //autonomousCommand.start();
-    }
+	public void autonomousInit() {
+		// schedule the autonomous command (example)
+		// autonomousCommand.start();
+		switch (autoMode) {
 
-    /**
-     * This function is called periodically during disabled
-     */
-    public void disabledPeriodic() {
-        Scheduler.getInstance().run();
-    }
+		case 0:
+			break;
 
-    /**
-     * This function is called periodically during autonomous
-     */
-    public void autonomousPeriodic() {
-        Scheduler.getInstance().run();
-    }
+		case 1:
+			new AutoModeDrive();
+			break;
 
-    public void teleopInit() {
+		case 2:
+			new AutoModeDriveAndShoot();
+			break;
+
+		case 3:
+			new AutoModeHotShot();
+			break;
+
+		default:
+			break;
+		}
+	}
+
+	/**
+	 * This function is called periodically during disabled
+	 */
+	public void disabledPeriodic() {
+		Scheduler.getInstance().run();
+		if ((!disabledTrigPressed) && oi.coStick.getTrigger() && autoMode < 3)
+			autoMode++;
+		disabledTrigPressed = oi.coStick.getTrigger();
+		if ((!disabledButton2Pressed) && oi.coStick.getRawButton(2)
+				&& autoMode > 0)
+			autoMode--;
+		disabledButton2Pressed = oi.coStick.getRawButton(2);
+		if ((!disabledButton4Pressed) && oi.coStick.getRawButton(4))
+			autoMode += 0.1;
+		disabledButton4Pressed = oi.coStick.getRawButton(4);
+		if ((!disabledButton5Pressed) && oi.coStick.getRawButton(5)
+				&& autoDelay > 0)
+			autoDelay -= 0.1;
+		disabledButton5Pressed = oi.coStick.getRawButton(5);
+
+		if ((!disabledButton3Pressed) && oi.coStick.getRawButton(3)) {
+
+			if (startPosition < 2)
+				startPosition++;
+			else
+				startPosition = 0;
+		}
+		disabledButton3Pressed = oi.coStick.getRawButton(3);
+	}
+
+	/**
+	 * This function is called periodically during autonomous
+	 */
+	public void autonomousPeriodic() {
+		Scheduler.getInstance().run();
+	}
+
+	public void teleopInit() {
 		// This makes sure that the autonomous stops running when
-        // teleop starts running. If you want the autonomous to 
-        // continue until interrupted by another command, remove
-        // this line or comment it out.
-        //autonomousCommand.cancel();
-    }
+		// teleop starts running. If you want the autonomous to
+		// continue until interrupted by another command, remove
+		// this line or comment it out.
+		// autonomousCommand.cancel();
+	}
 
-    /**
-     * This function is called periodically during operator control
-     */
-    public void teleopPeriodic() {
-        Scheduler.getInstance().run();
-    }
-    
-    /**
-     * This function is called periodically during test mode
-     */
-    public void testPeriodic() {
-        LiveWindow.run();
-    }
+	/**
+	 * This function is called periodically during operator control
+	 */
+	public void teleopPeriodic() {
+		Scheduler.getInstance().run();
+	}
+
+	/**
+	 * This function is called periodically during test mode
+	 */
+	public void testPeriodic() {
+		LiveWindow.run();
+	}
 }

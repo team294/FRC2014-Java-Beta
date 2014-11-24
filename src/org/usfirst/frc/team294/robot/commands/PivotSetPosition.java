@@ -21,6 +21,7 @@ public class PivotSetPosition extends Command {
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		Robot.pivot.setPrefSetpoint(m_setpoint);
+		System.out.println(m_setpoint);
 	}
 	
 	// Called repeatedly when this Command is scheduled to run

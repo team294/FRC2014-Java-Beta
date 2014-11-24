@@ -18,7 +18,8 @@ public class Pivot extends PIDSubsystem {
 	AnalogInput pivotPot = new AnalogInput(RobotMap.kAIN_pivotPot);
 	
 	PotLimitedSpeedController pivotMotor = new PotLimitedSpeedController(pivotMotorUnlimited, pivotPot, "pivMinLimit", "pivMaxLimit");
-
+	//SpeedController pivotMotor=pivotMotorUnlimited;
+	
 	public enum Setpoint {
 		kStart,
 		kHoldAuto,
@@ -41,6 +42,9 @@ public class Pivot extends PIDSubsystem {
 		super(Preferences.getInstance().getDouble("pivP", 0.0),
 				Preferences.getInstance().getDouble("pivI", 0.0),
 				Preferences.getInstance().getDouble("pivD", 0.0));
+		System.out.println("limit="+Preferences.getInstance().getDouble("pivMinLimit", 0.0));		
+		System.out.println("limit="+Preferences.getInstance().getDouble("pivMaxLimit", 0.0));
+
 		setInputRange(Preferences.getInstance().getDouble("pivMinLimit", 0.0),
 				Preferences.getInstance().getDouble("pivMaxLimit", 5.0));
 		//setOutputRange(-0.75, 0.75);

@@ -4,6 +4,7 @@ import org.usfirst.frc.team294.robot.Robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -20,11 +21,16 @@ public class PivotManualJoystick extends Command {
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		Robot.pivot.stop();
+	System.out.println("execute");
 	}
 	
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
+		System.out.println("execute");
     	Robot.pivot.setManual(m_stick.getY());
+    	double value = Robot.pivot.getPosition();
+    	SmartDashboard.putNumber("DB.Slider 0", value);
+    	System.out.println("Pot value:" + value);
 	}
 	
 	// Make this return true when this Command no longer needs to run execute()
