@@ -8,16 +8,16 @@ package org.usfirst.frc.team294.robot;
  */
 public class RobotMap {
 	// PWM
-	public static int kPWM_leftMotor1 = 0;
-	public static int kPWM_leftMotor2 = 1;
-	public static int kPWM_leftMotor3 = 2;
-	public static int kPWM_rightMotor1 = 3;
-	public static int kPWM_rightMotor2 = 4;
-	public static int kPWM_rightMotor3 = 5;
-	public static int kPWM_topKickerMotor = 6;
-	public static int kPWM_intakeWheelMotor = 7;
-	public static int kPWM_bottomKickerMotor = 8;
-	public static int kPWM_pivotMotor = 9;
+	public static int kPWM_leftMotor1 = 1;
+	public static int kPWM_leftMotor2 = 2;
+	public static int kPWM_leftMotor3 = 3;
+	public static int kPWM_rightMotor1 = 4;
+	public static int kPWM_rightMotor2 = 5;
+	public static int kPWM_rightMotor3 = 6;
+	public static int kPWM_topKickerMotor = 7;
+	public static int kPWM_intakeWheelMotor = 8;
+	public static int kPWM_bottomKickerMotor = 9;
+	public static int kPWM_pivotMotor = 10;
 
 	// Digital Inputs
 	public static int kDIN_leftDriveEncoderA = 0;

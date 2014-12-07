@@ -1,20 +1,21 @@
 package org.usfirst.frc.team294.robot.subsystems;
 
 import org.usfirst.frc.team294.robot.RobotMap;
-import org.usfirst.frc.team294.robot.util.LinearVictor884;
 import org.usfirst.frc.team294.robot.util.PotLimitedSpeedController;
+import edu.wpi.first.wpilibj.CANTalon;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.command.PIDSubsystem;
+//import edu.wpi.first.wpilibj.command.PIDSubsystem;
+
 
 /**
  *
  */
-public class Pivot extends PIDSubsystem {
+public class Pivot extends Subsystem {
 
-	SpeedController pivotMotorUnlimited = new LinearVictor884(RobotMap.kPWM_pivotMotor);
+	SpeedController pivotMotorUnlimited = new CANTalon(RobotMap.kPWM_pivotMotor);
 	AnalogInput pivotPot = new AnalogInput(RobotMap.kAIN_pivotPot);
 	
 	PotLimitedSpeedController pivotMotor = new PotLimitedSpeedController(pivotMotorUnlimited, pivotPot, "pivMinLimit", "pivMaxLimit");

@@ -1,11 +1,10 @@
 package org.usfirst.frc.team294.robot.subsystems;
 
-import org.usfirst.frc.team294.robot.Robot;
 import org.usfirst.frc.team294.robot.RobotMap;
 import org.usfirst.frc.team294.robot.commands.TankDriveWithJoysticks;
-import org.usfirst.frc.team294.robot.util.LinearVictor884;
 import org.usfirst.frc.team294.robot.util.RateLimitFilter;
 import org.usfirst.frc.team294.robot.util.TripleSpeedController;
+import edu.wpi.first.wpilibj.CANTalon;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -19,16 +18,16 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Drivetrain extends Subsystem {
 
 	// Left Drive
-	SpeedController leftMotor1 = new LinearVictor884(RobotMap.kPWM_leftMotor1);
-	SpeedController leftMotor2 = new LinearVictor884(RobotMap.kPWM_leftMotor2);
-	SpeedController leftMotor3 = new LinearVictor884(RobotMap.kPWM_leftMotor3);
+	SpeedController leftMotor1 = new CANTalon(RobotMap.kPWM_leftMotor1);
+	SpeedController leftMotor2 = new CANTalon(RobotMap.kPWM_leftMotor2);
+	SpeedController leftMotor3 = new CANTalon(RobotMap.kPWM_leftMotor3);
 	SpeedController leftMotor = new TripleSpeedController(leftMotor1,
 			leftMotor2, leftMotor3, (byte) 0);
 
 	// Right Drive
-	SpeedController rightMotor1 = new LinearVictor884(RobotMap.kPWM_rightMotor1);
-	SpeedController rightMotor2 = new LinearVictor884(RobotMap.kPWM_rightMotor2);
-	SpeedController rightMotor3 = new LinearVictor884(RobotMap.kPWM_rightMotor3);
+	SpeedController rightMotor1 = new CANTalon(RobotMap.kPWM_rightMotor1);
+	SpeedController rightMotor2 = new CANTalon(RobotMap.kPWM_rightMotor2);
+	SpeedController rightMotor3 = new CANTalon(RobotMap.kPWM_rightMotor3);
 	SpeedController rightMotor = new TripleSpeedController(rightMotor1,
 			rightMotor2, rightMotor3, (byte) 0);
 

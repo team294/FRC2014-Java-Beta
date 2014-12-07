@@ -3,15 +3,14 @@ package org.usfirst.frc.team294.robot.subsystems;
 
 import org.usfirst.frc.team294.robot.RobotMap;
 import org.usfirst.frc.team294.robot.util.DualSpeedController;
-import org.usfirst.frc.team294.robot.util.LinearVictor884;
 import org.usfirst.frc.team294.robot.util.SwitchSpeedController;
+import edu.wpi.first.wpilibj.CANTalon;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
 //import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
-
 
 /**
  *
@@ -23,8 +22,8 @@ public class Winch extends Subsystem {
 	//DigitalInput kickerLimitFront = new DigitalInput(RobotMap.kDIN_kickerLimitFront);
 	//DigitalInput kickerResetLimitSwitch = new DigitalInput(RobotMap.kDIN_kickerResetLimitSwitch);
 
-	SpeedController topKickerMotor = new LinearVictor884(RobotMap.kPWM_topKickerMotor);
-	SpeedController bottomKickerMotor = new LinearVictor884(RobotMap.kPWM_bottomKickerMotor);
+	SpeedController topKickerMotor = new CANTalon(RobotMap.kPWM_topKickerMotor);
+	SpeedController bottomKickerMotor = new CANTalon(RobotMap.kPWM_bottomKickerMotor);
 	SpeedController kickerMotorUnlimited = new DualSpeedController(topKickerMotor, bottomKickerMotor, (byte) 0);
 	SpeedController kickerMotor = new SwitchSpeedController(kickerMotorUnlimited, kickerLimitBack);
 	Solenoid kickerPiston = new Solenoid(RobotMap.kSOL_kickerPistonModule, RobotMap.kSOL_kickerPiston);
