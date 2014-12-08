@@ -2,12 +2,14 @@ package org.usfirst.frc.team294.robot.subsystems;
 
 import org.usfirst.frc.team294.robot.RobotMap;
 import org.usfirst.frc.team294.robot.util.PotLimitedSpeedController;
-import edu.wpi.first.wpilibj.CANTalon;
 
+import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.CANTalon.ControlMode;
+import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
 import edu.wpi.first.wpilibj.Preferences;
-import edu.wpi.first.wpilibj.SpeedController;
 //import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import edu.wpi.first.wpilibj.command.Subsystem;
 
 
 /**
@@ -15,12 +17,12 @@ import edu.wpi.first.wpilibj.SpeedController;
  */
 public class Pivot extends Subsystem {
 
-	SpeedController pivotMotorUnlimited = new CANTalon(RobotMap.kPWM_pivotMotor);
-	AnalogInput pivotPot = new AnalogInput(RobotMap.kAIN_pivotPot);
+	/**
+	 * pivot Motor Unlimited
+	 */
+	CANTalon pivotMotor = new CANTalon(RobotMap.kPWM_pivotMotor);
 	
-	PotLimitedSpeedController pivotMotor = new PotLimitedSpeedController(pivotMotorUnlimited, pivotPot, "pivMinLimit", "pivMaxLimit");
-	//SpeedController pivotMotor=pivotMotorUnlimited;
-	
+	double setp;
 	public enum Setpoint {
 		kStart,
 		kHoldAuto,
@@ -33,26 +35,31 @@ public class Pivot extends Subsystem {
 		kLowGoal,
 	}
 	Setpoint m_setpoint;
-
+	
 	// Initialize your subsystem here
 	public Pivot() {
 		// Use these to get going:
 		// setSetpoint() -  Sets where the PID controller should move the system
 		//                  to
 		// enable() - Enables the PID controller.
-		super(Preferences.getInstance().getDouble("pivP", 0.0),
+		pivotMotor.setPID(Preferences.getInstance().getDouble("pivP", 0.0),
 				Preferences.getInstance().getDouble("pivI", 0.0),
 				Preferences.getInstance().getDouble("pivD", 0.0));
-		System.out.println("limit="+Preferences.getInstance().getDouble("pivMinLimit", 0.0));		
-		System.out.println("limit="+Preferences.getInstance().getDouble("pivMaxLimit", 0.0));
+		pivotMotor.setFeedbackDevice(FeedbackDevice.AnalogPot);
+		
+		System.out.println("limit="+Preferences.getInstance().getInt("pivMinLimit", 0));		
+		System.out.println("limit="+Preferences.getInstance().getInt("pivMaxLimit", 0));
 
-		setInputRange(Preferences.getInstance().getDouble("pivMinLimit", 0.0),
-				Preferences.getInstance().getDouble("pivMaxLimit", 5.0));
+		//pivotMotor.setForwardSoftLimit(Preferences.getInstance().getInt("pivMinLimit", 0));
+		//pivotMotor.setReverseSoftLimit(Preferences.getInstance().getDouble("pivMaxLimit", 0));
+		//pivotMotor.enableForwardSoftLimit(true);
+		//pivotMotor.enableReverseSoftLimit(true);
+		
 		//setOutputRange(-0.75, 0.75);
 		//setTolerance(0.1);
-		setAbsoluteTolerance(0.03);
-		pivotMotor.setInverted(true);
-		pivotMotor.setScale(1.0/200.0);
+		
+		pivotMotor.reverseSensor(true);
+		//pivotMotor.setScale(1.0/200.0);
 	}
     
 	public void initDefaultCommand() {
@@ -60,24 +67,25 @@ public class Pivot extends Subsystem {
 		//setDefaultCommand(new MySpecialCommand());
 	}
 	
-	protected double returnPIDInput() {
-		return pivotPot.getAverageValue() / 200.0;
+	public boolean onTarget(){
+		return Math.abs(pivotMotor.getClosedLoopError())<30;
 	}
 	
-	protected void usePIDOutput(double output) {
-		pivotMotor.set(-output);
-	}
-
 	public void stop() {
-		disable();
+		pivotMotor.disableControl();
 	}
 	
 	public void setManual(double value) {
-		if (getPIDController().isEnable())
-			disable();
+		if (pivotMotor.getControlMode() != ControlMode.PercentVbus) {
+			pivotMotor.disableControl();
+			pivotMotor.changeControlMode(ControlMode.PercentVbus);
+		}
 		pivotMotor.set(value);
+		pivotMotor.enableControl();
 	}
-	
+	public int getPosition(){
+		return pivotMotor.getAnalogInPosition();
+	}
 	public boolean isIntakeUpOk() {
 		double pivStartSetpoint = Preferences.getInstance().getDouble("pivStartSetpoint", Double.POSITIVE_INFINITY);
 		if (pivStartSetpoint == Double.POSITIVE_INFINITY)
@@ -92,14 +100,15 @@ public class Pivot extends Subsystem {
 	private void setPrefSetpoint(String pref) {
 		if (pref == null)
 			return;
-		double setp = Preferences.getInstance().getDouble(pref, Double.POSITIVE_INFINITY);
+		setp = Preferences.getInstance().getDouble(pref, Double.POSITIVE_INFINITY);
 		if (setp == Double.POSITIVE_INFINITY)
 			return;
-		setSetpoint(setp);
-		if (!getPIDController().isEnable()) {
-			getPIDController().reset();
-			enable();
+		if (pivotMotor.getControlMode() != ControlMode.Position) {
+			pivotMotor.disableControl();
+			pivotMotor.changeControlMode(ControlMode.Position);
 		}
+		pivotMotor.set(setp);
+		pivotMotor.enableControl();
 	}
 
 	private String getSetpointPrefName(Setpoint setpoint) {
@@ -153,18 +162,9 @@ public class Pivot extends Subsystem {
 		return m_setpoint == Setpoint.kIntake;
 	}
 	
-	public boolean onTarget() {
-		//logging.debug("cur: %.2f setpoint: %.2f error: %.2f ontarget: %s",
-		//		self.pidSource.PIDGet(),
-		//		self.pid.GetSetpoint(),
-		//		self.pid.GetError(),
-		//		self.pid.OnTarget())
-		return super.onTarget();
-	}
-	
 	public void tweakSetpoint(double amt) {
-		if (getPIDController().isEnable()) {
-			double oldSetpoint = getSetpoint();
+		if (pivotMotor.getControlMode()==ControlMode.Position) {
+			double oldSetpoint = setp;
 			double newSetpoint = oldSetpoint + amt;
 			// Update preferences so the robot remembers it for next time
 			String pref;
@@ -178,11 +178,13 @@ public class Pivot extends Subsystem {
 				return;
 			Preferences.getInstance().putDouble(pref, newSetpoint);
 			Preferences.getInstance().save();
-			setSetpoint(newSetpoint);
+			pivotMotor.set(newSetpoint);
 		} else {
-			setSetpoint(getPosition() + amt);
-			getPIDController().reset();
-			enable();
+			pivotMotor.disableControl();
+			pivotMotor.changeControlMode(ControlMode.Position);
+			pivotMotor.set(pivotMotor.getPosition() + amt);
+			//getPIDController().reset();
+			pivotMotor.enableControl();
 		}
 	}
 

@@ -21,7 +21,7 @@ public class PivotManualJoystick extends Command {
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		Robot.pivot.stop();
-	System.out.println("execute");
+		System.out.println("execute");
 	}
 	
 	// Called repeatedly when this Command is scheduled to run

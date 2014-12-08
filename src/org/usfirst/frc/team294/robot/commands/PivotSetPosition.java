@@ -14,7 +14,6 @@ public class PivotSetPosition extends Command {
 	public PivotSetPosition(Pivot.Setpoint setpoint) {
 		// Use requires() here to declare subsystem dependencies
 		requires(Robot.pivot);
-		
 		m_setpoint = setpoint;
 	}
 	

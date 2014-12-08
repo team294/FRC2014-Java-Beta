@@ -3,10 +3,9 @@ package org.usfirst.frc.team294.robot.subsystems;
 import org.usfirst.frc.team294.robot.RobotMap;
 import org.usfirst.frc.team294.robot.commands.IntakeStop;
 import org.usfirst.frc.team294.robot.triggers.LimitSwitchTrigger;
-import org.usfirst.frc.team294.robot.util.LinearVictor884;
+
+import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -14,7 +13,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class Intake extends Subsystem {
 
-	SpeedController intakeWheelMotor = new Talon(RobotMap.kPWM_intakeWheelMotor);
+	CANTalon intakeWheelMotor = new CANTalon(RobotMap.kPWM_intakeWheelMotor);
 	DigitalInput buttonIntake = new DigitalInput(RobotMap.kDIN_buttonIntake);
 	LimitSwitchTrigger buttonIntakeHit = new LimitSwitchTrigger(buttonIntake);
 
