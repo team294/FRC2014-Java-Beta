@@ -1,10 +1,10 @@
 package org.usfirst.frc.team294.robot.subsystems;
 
 import org.usfirst.frc.team294.robot.RobotMap;
-import org.usfirst.frc.team294.robot.util.PotLimitedSpeedController;
+//import org.usfirst.frc.team294.robot.util.PotLimitedSpeedController;
 
 import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.AnalogInput;
+//import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.CANTalon.ControlMode;
 import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
 import edu.wpi.first.wpilibj.Preferences;
@@ -21,7 +21,7 @@ public class Pivot extends Subsystem {
 	 * pivot Motor Unlimited
 	 */
 	CANTalon pivotMotor = new CANTalon(RobotMap.kPWM_pivotMotor);
-	
+
 	double setp;
 	public enum Setpoint {
 		kStart,
@@ -35,7 +35,7 @@ public class Pivot extends Subsystem {
 		kLowGoal,
 	}
 	Setpoint m_setpoint;
-	
+
 	// Initialize your subsystem here
 	public Pivot() {
 		// Use these to get going:
@@ -46,7 +46,7 @@ public class Pivot extends Subsystem {
 				Preferences.getInstance().getDouble("pivI", 0.0),
 				Preferences.getInstance().getDouble("pivD", 0.0));
 		pivotMotor.setFeedbackDevice(FeedbackDevice.AnalogPot);
-		
+
 		System.out.println("limit="+Preferences.getInstance().getInt("pivMinLimit", 0));		
 		System.out.println("limit="+Preferences.getInstance().getInt("pivMaxLimit", 0));
 
@@ -54,27 +54,27 @@ public class Pivot extends Subsystem {
 		//pivotMotor.setReverseSoftLimit(Preferences.getInstance().getDouble("pivMaxLimit", 0));
 		//pivotMotor.enableForwardSoftLimit(true);
 		//pivotMotor.enableReverseSoftLimit(true);
-		
+
 		//setOutputRange(-0.75, 0.75);
 		//setTolerance(0.1);
-		
+
 		pivotMotor.reverseSensor(true);
 		//pivotMotor.setScale(1.0/200.0);
 	}
-    
+
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		//setDefaultCommand(new MySpecialCommand());
 	}
-	
+
 	public boolean onTarget(){
 		return Math.abs(pivotMotor.getClosedLoopError())<30;
 	}
-	
+
 	public void stop() {
 		pivotMotor.disableControl();
 	}
-	
+
 	public void setManual(double value) {
 		if (pivotMotor.getControlMode() != ControlMode.PercentVbus) {
 			pivotMotor.disableControl();
@@ -92,7 +92,7 @@ public class Pivot extends Subsystem {
 			return false;
 		return getPosition() < (pivStartSetpoint+2);
 	}
-	
+
 	public void goHome() {
 		setPrefSetpoint(Setpoint.kStart);
 	}
@@ -145,23 +145,23 @@ public class Pivot extends Subsystem {
 				setpoint = Setpoint.kFarShot;
 		}
 	}
-	
+
 	public synchronized Setpoint getPrefSetpoint() {
 		return m_setpoint;
 	}
-	
+
 	public synchronized boolean isFarShot() {
 		return m_setpoint == Setpoint.kFarShot;
 	}
-	
+
 	public synchronized boolean isCloseShot() {
 		return m_setpoint == Setpoint.kCloseShot;
 	}
-	
+
 	public synchronized boolean isIntake() {
 		return m_setpoint == Setpoint.kIntake;
 	}
-	
+
 	public void tweakSetpoint(double amt) {
 		if (pivotMotor.getControlMode()==ControlMode.Position) {
 			double oldSetpoint = setp;
@@ -191,7 +191,7 @@ public class Pivot extends Subsystem {
 	public void tweakDown() {
 		tweakSetpoint(4);
 	}
-	
+
 	public void tweakUp() {
 		tweakSetpoint(-4);
 	}
