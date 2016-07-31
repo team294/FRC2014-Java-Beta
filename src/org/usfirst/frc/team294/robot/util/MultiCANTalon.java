@@ -1,7 +1,7 @@
 package org.usfirst.frc.team294.robot.util;
 
 import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.CANTalon.ControlMode;
+import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.SpeedController;
 
 public class MultiCANTalon implements SpeedController {
@@ -13,7 +13,7 @@ public class MultiCANTalon implements SpeedController {
 		for (int i=0; i < motors.length; i++)
 			controllers[i] = new CANTalon(motors[i]);
 		for (int i=1; i < motors.length; i++) {
-			controllers[i].changeControlMode(ControlMode.Follower);
+			controllers[i].changeControlMode(TalonControlMode.Follower);
 		}
 	}
 	
@@ -51,5 +51,23 @@ public class MultiCANTalon implements SpeedController {
 	@Override
 	public void disable() {
 		controllers[0].disable();
+	}
+
+	@Override
+	public void setInverted(boolean isInverted) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean getInverted() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void stopMotor() {
+		// TODO Auto-generated method stub
+		
 	}
 }

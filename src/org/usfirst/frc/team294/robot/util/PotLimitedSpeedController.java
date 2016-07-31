@@ -114,4 +114,16 @@ public class PotLimitedSpeedController implements SpeedController {
 	public void disable() {
 		m_output.disable();
 	}
+
+	@Override
+	public boolean getInverted() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void stopMotor() {
+		// TODO Auto-generated method stub
+		
+	}
 }

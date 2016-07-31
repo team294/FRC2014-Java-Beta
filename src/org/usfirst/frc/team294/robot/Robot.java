@@ -1,6 +1,6 @@
 package org.usfirst.frc.team294.robot;
 
-import edu.wpi.first.wpilibj.Gyro;
+import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.command.Command;
@@ -21,7 +21,7 @@ import org.usfirst.frc.team294.robot.subsystems.*;
 public class Robot extends IterativeRobot {
 
 	public static PowerDistributionPanel pdp;
-	public static Gyro gyro;
+	public static AnalogGyro gyro;
 
 	public static Drivetrain drivetrain;
 	public static Intake intake;
@@ -53,7 +53,7 @@ public class Robot extends IterativeRobot {
 	 */
 	public void robotInit() {
 		pdp = new PowerDistributionPanel();
-		gyro = new Gyro(RobotMap.kAIN_gyro);
+		gyro = new AnalogGyro(RobotMap.kAIN_gyro);
 
 		drivetrain = new Drivetrain();
 		intake = new Intake();

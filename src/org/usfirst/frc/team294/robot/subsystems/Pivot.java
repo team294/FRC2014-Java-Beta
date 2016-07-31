@@ -5,8 +5,8 @@ import org.usfirst.frc.team294.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.CANTalon;
 //import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.CANTalon.ControlMode;
 import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
+import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.Preferences;
 //import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -76,9 +76,9 @@ public class Pivot extends Subsystem {
 	}
 
 	public void setManual(double value) {
-		if (pivotMotor.getControlMode() != ControlMode.PercentVbus) {
+		if (pivotMotor.getControlMode() != TalonControlMode.PercentVbus) {
 			pivotMotor.disableControl();
-			pivotMotor.changeControlMode(ControlMode.PercentVbus);
+			pivotMotor.changeControlMode(TalonControlMode.PercentVbus);
 		}
 		pivotMotor.set(value);
 		pivotMotor.enableControl();
@@ -103,9 +103,9 @@ public class Pivot extends Subsystem {
 		setp = Preferences.getInstance().getDouble(pref, Double.POSITIVE_INFINITY);
 		if (setp == Double.POSITIVE_INFINITY)
 			return;
-		if (pivotMotor.getControlMode() != ControlMode.Position) {
+		if (pivotMotor.getControlMode() != TalonControlMode.Position) {
 			pivotMotor.disableControl();
-			pivotMotor.changeControlMode(ControlMode.Position);
+			pivotMotor.changeControlMode(TalonControlMode.Position);
 		}
 		pivotMotor.set(setp);
 		pivotMotor.enableControl();
@@ -163,7 +163,7 @@ public class Pivot extends Subsystem {
 	}
 
 	public void tweakSetpoint(double amt) {
-		if (pivotMotor.getControlMode()==ControlMode.Position) {
+		if (pivotMotor.getControlMode()==TalonControlMode.Position) {
 			double oldSetpoint = setp;
 			double newSetpoint = oldSetpoint + amt;
 			// Update preferences so the robot remembers it for next time
@@ -181,7 +181,7 @@ public class Pivot extends Subsystem {
 			pivotMotor.set(newSetpoint);
 		} else {
 			pivotMotor.disableControl();
-			pivotMotor.changeControlMode(ControlMode.Position);
+			pivotMotor.changeControlMode(TalonControlMode.Position);
 			pivotMotor.set(pivotMotor.getPosition() + amt);
 			//getPIDController().reset();
 			pivotMotor.enableControl();

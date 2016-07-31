@@ -40,4 +40,22 @@ public class SwitchSpeedController implements SpeedController {
 	public void disable() {
 		m_controller.disable();
 	}
+
+	@Override
+	public void setInverted(boolean isInverted) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean getInverted() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void stopMotor() {
+		// TODO Auto-generated method stub
+		
+	}
 }
