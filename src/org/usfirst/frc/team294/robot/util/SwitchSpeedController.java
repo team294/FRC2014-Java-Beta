@@ -24,16 +24,8 @@ public class SwitchSpeedController implements SpeedController {
 	}
 
 	@Override
-	public void set(double speed, byte syncGroup) {
-		if (!m_limitSwitch.get())
-			m_controller.set(0.0, syncGroup);
-		else
-			m_controller.set(speed, syncGroup);
-	}
-
-	@Override
 	public void set(double speed) {
-		set(speed, (byte) 0);
+		set(speed);
 	}
 
 	@Override

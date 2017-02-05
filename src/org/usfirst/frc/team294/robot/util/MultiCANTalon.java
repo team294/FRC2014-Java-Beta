@@ -1,7 +1,9 @@
 package org.usfirst.frc.team294.robot.util;
 
-import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
+
+import com.ctre.CANTalon;
+import com.ctre.CANTalon.TalonControlMode;
+
 import edu.wpi.first.wpilibj.SpeedController;
 
 public class MultiCANTalon implements SpeedController {
@@ -30,14 +32,6 @@ public class MultiCANTalon implements SpeedController {
 	@Override
 	public double get() {
 		return controllers[0].get();
-	}
-
-	@Override
-	public void set(double speed, byte syncGroup) {
-		controllers[0].set(speed);
-		for (int i=1; i < controllers.length; i++) {
-			controllers[i].set(controllers[0].getDeviceID());
-		}
 	}
 
 	@Override
